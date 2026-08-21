@@ -1,5 +1,7 @@
 # 三版本圣经对照 · Three-Version Bible Comparison
 
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=mzhao577/bible-3-versions&branch=main&mainModule=app.py)
+
 A Streamlit app that reads the Bible **verse by verse across three versions at once**:
 
 | 版本 | Version | 状态 |
@@ -76,10 +78,11 @@ Use `--version CODE` (CLI) to load some other translation into an extra slot.
 
 ## Deploying to Streamlit Community Cloud
 
-1. Push this folder to a GitHub repository.
-2. Go to <https://share.streamlit.io> → **New app**, pick the repo/branch, and set
-   the main file to `app.py`.
-3. Deploy.
+Click the badge above — it opens Streamlit's deploy form with this repo, `main`
+and `app.py` already filled in. Sign in with GitHub and press **Deploy**.
+
+Manually: <https://share.streamlit.io> → **New app** → pick the repo/branch →
+main file `app.py`.
 
 Only the two public-domain versions ship in `data/bible.sqlite`, so the deployed
 app republishes nothing under copyright. Visitors who hold the Recovery Version
