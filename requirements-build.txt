@@ -1,0 +1,2 @@
+# Only needed to (re)build data/bible.sqlite — not required to run the app.
+opencc-python-reimplemented>=0.1.7

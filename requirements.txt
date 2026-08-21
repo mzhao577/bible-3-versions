@@ -1,0 +1,4 @@
+streamlit>=1.40
+# Converts 繁體 -> 简体 for versions imported at runtime through the sidebar.
+# The app still runs without it; 简体 then falls back to the source script.
+opencc-python-reimplemented>=0.1.7

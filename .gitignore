@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+scripts/_cache/
+
+# Never commit a locally-imported copyrighted version.
+recovery*
+恢复本*
+*.bbl.mybible
+*.bblx
+
+# Local tooling / scratch, not part of the app.
+.claude/
+instruction.txt
