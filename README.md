@@ -19,9 +19,21 @@ layout, 简体/繁體 toggle, font size and serif controls, and shareable deep l
 ## Quick start
 
 ```bash
+./run.sh              # installs deps if needed, serves on http://localhost:8501
+./run.sh 8600         # or pick a port
+```
+
+Or by hand:
+
+```bash
 pip install -r requirements.txt
 streamlit run app.py
 ```
+
+`run.sh` uses `python3`; set `PYTHON=/path/to/python ./run.sh` to pick another
+interpreter. Streamlit binds every interface by default, so the app is also
+reachable from other devices on your network — add
+`--server.address 127.0.0.1` to keep it to this machine only.
 
 `data/bible.sqlite` is committed, so there is nothing to build at boot. To
 regenerate it from source instead:
