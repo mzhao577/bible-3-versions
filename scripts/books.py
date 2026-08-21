@@ -83,6 +83,10 @@ ALIASES = {
     "2 corinthians": 47, "1 thessalonians": 52, "2 thessalonians": 53,
     "1 timothy": 54, "2 timothy": 55, "1 peter": 60, "2 peter": 61,
     "1 john": 62, "2 john": 63, "3 john": 64,
+    # 一/壹, 二/貳/贰, 三/參/参/叁 all appear as the Johannine epistle numerals
+    # depending on the edition; ABBR_ZH carries 約壹/約貳/約參, these are the rest.
+    "约一": 62, "約一": 62, "约二": 63, "約二": 63, "约三": 64, "約三": 64,
+    "约叁": 64, "約叁": 64, "约参": 64,
 }
 
 # Standard Chinese abbreviations (和合本 / 恢復本 share these), traditional.

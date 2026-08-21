@@ -13,3 +13,9 @@ recovery*
 # Local tooling / scratch, not part of the app.
 .claude/
 instruction.txt
+
+# Private database holding a licensed version (e.g. the Recovery Version).
+# The committed data/bible.sqlite must stay public-domain-only.
+data/bible.local.sqlite
+biblerain_*
+*.epub

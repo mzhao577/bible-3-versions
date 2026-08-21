@@ -17,8 +17,16 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(HERE, "data", "bible.sqlite")
 sys.path.insert(0, os.path.join(HERE, "scripts"))
+
+# data/bible.sqlite holds only the public-domain KJV + CUV and is committed, so
+# it is what a deployed copy serves.  A licensed version imported for private
+# use goes to bible.local.sqlite, which .gitignore blocks: the app prefers it
+# when present, so the local reader gets all three versions and no copyrighted
+# text can reach the public repo by way of a stray `git add`.
+PUBLIC_DB = os.path.join(HERE, "data", "bible.sqlite")
+LOCAL_DB = os.path.join(HERE, "data", "bible.local.sqlite")
+DB_PATH = LOCAL_DB if os.path.exists(LOCAL_DB) else PUBLIC_DB
 
 ACCENTS = {"RCV": "#d97706", "CUV": "#3b82f6", "KJV": "#10b981"}
 MAX_RESULTS = 200

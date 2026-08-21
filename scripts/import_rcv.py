@@ -43,8 +43,14 @@ COL_ALIASES = {
     "verse": {"verse", "vers", "v", "节", "節"},
     "text": {"text", "scripture", "verse_text", "content", "t", "经文", "經文", "内容"},
 }
-LINE_RE = re.compile(r"^\s*(?P<book>[^\d\s]+(?:[上下前後后壹贰貳叁參参一二三]?)?|\d?\s*[A-Za-z .]+)"
-                     r"\s*(?P<chapter>\d+)\s*[:：.]\s*(?P<verse>\d+)\s*(?P<text>.+?)\s*$")
+# One verse per line:  创 1:1  起初…   |   1 John 3:16 …
+# Some editions split a long verse across two lines (创 1:2上 / 创 1:2下) or
+# label a line with several verse numbers (创 1:6,6); both are keyed to the
+# first number, and parse_file() joins the parts back into one verse.
+LINE_RE = re.compile(r"^\s*(?P<book>\d?\s*[A-Za-z][A-Za-z .]*|[^\d\s:：.]+)"
+                     r"\s*(?P<chapter>\d+)\s*[:：.]\s*(?P<verse>\d+)"
+                     r"(?P<part>[上中下]?)(?:\s*[,，]\s*\d+)*"
+                     r"\s*(?P<text>.+?)\s*$")
 
 
 def resolve_books():
@@ -170,7 +176,10 @@ def parse_file(path: str, *, strip_notes: bool = False, quiet: bool = False):
     if not quiet:
         print(f"reading {path} with {reader.__name__} …")
 
-    rows, unknown, skipped = [], set(), 0
+    unknown, skipped = set(), 0
+    seen: dict[tuple[int, int, int], int] = {}
+    merged: list[str] = []
+    order: list[tuple[int, int, int]] = []
     for book, chapter, verse, text in reader(path):
         key = str(book).strip().lower().replace(" ", "").replace(".", "")
         bid = lookup.get(key) or lookup.get(re.sub(r"[書书]$", "", key))
@@ -186,8 +195,18 @@ def parse_file(path: str, *, strip_notes: bool = False, quiet: bool = False):
         if strip_notes:
             text = NOTE_RE.sub("", text)
         text = clean_zh(text)
-        if text:
-            rows.append((bid, c, v, text, t2s(text) if t2s else None))
+        if not text:
+            continue
+        if (bid, c, v) in seen:
+            # a verse split across lines (…2上 / …2下) — keep both halves
+            merged[seen[(bid, c, v)]] += text
+        else:
+            seen[(bid, c, v)] = len(merged)
+            merged.append(text)
+            order.append((bid, c, v))
+
+    rows = [(b, c, v, text, t2s(text) if t2s else None)
+            for (b, c, v), text in zip(order, merged)]
     return rows, unknown, skipped
 
 

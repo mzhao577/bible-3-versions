@@ -26,6 +26,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 CACHE = os.path.join(HERE, "_cache")
 DB_PATH = os.path.join(ROOT, "data", "bible.sqlite")
+LOCAL_DB = os.path.join(ROOT, "data", "bible.local.sqlite")
 
 BASE = "https://raw.githubusercontent.com/scrollmapper/bible_databases/master/formats/csv"
 SOURCES = {"KJV": f"{BASE}/KJV.csv", "ChiUn": f"{BASE}/ChiUn.csv"}
